@@ -25,6 +25,7 @@ class EDA:
     
     def plot_correlation_matrix(self):
         numeric_df = self.df.select_dtypes(include=['float64', 'int64'])
+        numeric_df = numeric_df.apply(pd.to_numeric, errors='coerce')  # Ensure all values are numeric
         plt.figure(figsize=(12, 8))
         sns.heatmap(numeric_df.corr(), annot=True, cmap='coolwarm')
         plt.title('Correlation Matrix')
