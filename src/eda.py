@@ -44,3 +44,11 @@ class EDA:
         sns.boxplot(x=self.df[column])
         plt.title(f'Box Plot of {column}')
         plt.show()
+    def visualize_distributions(self):
+        numeric_columns = self.df.select_dtypes(include=['float64', 'int64']).columns
+        for column in numeric_columns:
+            self.plot_distribution(column)
+        
+        categorical_columns = self.df.select_dtypes(include=['object']).columns
+        for column in categorical_columns:
+            self.plot_categorical_distribution(column)
