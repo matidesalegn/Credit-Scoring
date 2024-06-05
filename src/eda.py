@@ -50,6 +50,14 @@ class EDA:
         plt.title('Correlation Matrix')
         plt.show()
 
+    def plot_selected_correlation_matrix(self, columns):
+        subset_df = self.df[columns]
+        correlation_matrix = subset_df.corr()
+        plt.figure(figsize=(6, 4))
+        sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
+        plt.title(f'Correlation Matrix for {", ".join(columns)}')
+        plt.show()
+
     def plot_categorical_distribution(self, column):
         self.logger.info("Categorical distribution...")
         plt.figure(figsize=(10, 6))
