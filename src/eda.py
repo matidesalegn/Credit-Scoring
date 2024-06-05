@@ -5,12 +5,9 @@ from src.logger import setup_logger
 
 
 class EDA:
-    # def __init__(self, df):
-    #     self.df = df
-    #     self.logger = setup_logger()
-    def __init__(self, data):
-        self.data = data
-        self.logger = setup_logger('EDA')
+    def __init__(self, df):
+        self.df = df
+        self.logger = setup_logger()
 
 
     def overview(self):
@@ -49,7 +46,7 @@ class EDA:
         numeric_cols = self.data.select_dtypes(include=['float64', 'int64'])
         correlation = numeric_cols.corr()
         plt.figure(figsize=(12, 8))
-        sns.heatmap(correlation, annot=True, cmap='viridis')
+        sns.heatmap(correlation, annot=True, cmap='coolwarm')
         plt.title('Correlation Matrix')
         plt.show()
 
@@ -81,10 +78,10 @@ class EDA:
         for column in categorical_columns:
             self.plot_categorical_distribution(column)
 
-    # def box_plots(self):
-    #     self.logger.info("Creating box plots for outlier detection...")
-    #     numeric_cols = self.data.select_dtypes(include=['float64', 'int64']).columns
-    #     for col in numeric_cols:
-    #         sns.boxplot(x=self.data[col])
-    #         plt.title(f'Box plot of {col}')
-    #         plt.show()
+    def box_plots(self):
+        self.logger.info("Creating box plots for outlier detection...")
+        numeric_cols = self.data.select_dtypes(include=['float64', 'int64']).columns
+        for col in numeric_cols:
+            sns.boxplot(x=self.data[col])
+            plt.title(f'Box plot of {col}')
+            plt.show()
