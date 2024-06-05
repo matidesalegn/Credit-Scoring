@@ -28,17 +28,17 @@ class FeatureEngineering:
     def encode_categorical_variables(self):
         self.logger.info("Encoding categorical variables...")
         # One-Hot Encoding for categorical variables with fewer categories
-        ohe = OneHotEncoder(sparse=False, drop='first')
+        ohe = OneHotEncoder(sparse_output=False, drop='first')
         cat_cols = self.df.select_dtypes(include=['object']).columns
         for col in cat_cols:
-         if self.df[col].nunique() < 10:
-          dummies = pd.get_dummies(self.df[col], prefix=col, drop_first=True)
-          self.df = pd.concat([self.df, dummies], axis=1)
-          self.df.drop(columns=[col], inplace=True)
-        else:
-        # Label Encoding for categorical variables with more categories
-          le = LabelEncoder()
-          self.df[col] = le.fit_transform(self.df[col])
+            if self.df[col].nunique() < 10:
+                dummies = pd.get_dummies(self.df[col], prefix=col, drop_first=True)
+                self.df = pd.concat([self.df, dummies], axis=1)
+                self.df.drop(columns=[col], inplace=True)
+            else:
+                # Label Encoding for categorical variables with more categories
+                le = LabelEncoder()
+                self.df[col] = le.fit_transform(self.df[col])
         return self.df
 
     def handle_missing_values(self):
