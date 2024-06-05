@@ -27,16 +27,16 @@ class FeatureEngineering:
 
     def encode_categorical_variables(self):
         self.logger.info("Encoding categorical variables...")
-        # One-Hot Encoding for categorical variables with fewer categories
-        ohe = OneHotEncoder(sparse_output=False, drop='first')
         cat_cols = self.df.select_dtypes(include=['object']).columns
+
         for col in cat_cols:
             if self.df[col].nunique() < 10:
-                dummies = pd.get_dummies(self.df[col], prefix=col, drop_first=True)
-                self.df = pd.concat([self.df, dummies], axis=1)
-                self.df.drop(columns=[col], inplace=True)
+                # One-Hot Encoding for columns with fewer unique categories
+                ohe = OneHotEncoder(sparse_output=False, drop='first')
+                ohe_df = pd.DataFrame(ohe.fit_transform(self.df[[col]]), columns=ohe.get_feature_names_out([col]))
+                self.df = pd.concat([self.df, ohe_df], axis=1).drop(columns=[col])
             else:
-                # Label Encoding for categorical variables with more categories
+                # Label Encoding for columns with many unique categories
                 le = LabelEncoder()
                 self.df[col] = le.fit_transform(self.df[col])
         return self.df
