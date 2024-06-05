@@ -4,7 +4,7 @@ from src.data_loader import DataLoader
 
 class TestDataLoader(unittest.TestCase):
     def setUp(self):
-        self.loader = DataLoader('data/raw/dataset.csv')
+        self.loader = DataLoader('data/raw/data.csv')
 
     def test_load_data(self):
         data = self.loader.load_data()
